@@ -1,0 +1,11 @@
+  nodered:
+    container_name: nodered
+    build: ./services/nodered/.
+    restart: unless-stopped
+    user: "0"
+    privileged: true
+    env_file: ./services/nodered/nodered.env
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./volumes/nodered/data:/data

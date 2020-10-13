@@ -1,0 +1,27 @@
+
+  nginx_manager:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    volumes:
+      - ./config.json:/app/config/production.json
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db_nginx
+    ports:
+      - 80:80
+      - 443:443
+      - 82:81
+    restart: unless-stopped
+  db_nginx:
+    image: yobasystems/alpine-mariadb:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ROOTPASSWORD
+      MYSQL_DATABASE: NombreBD
+      MYSQL_USER: UsuarioBD
+      MYSQL_PASSWORD: ContraseñaBD
+    volumes:    
+      - ./mysql:/var/lib/mysql
+    expose:
+      - "3306"
